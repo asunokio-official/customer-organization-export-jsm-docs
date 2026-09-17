@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RosterFlow for JSM Documentation</title>
+<title>Customer & Organization Export for JSM Documentation</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
   :root { --bg:#faf9f6; --surface:#ffffff; --ink:#21242c; --ink-soft:#4b5160; --muted:#767c8a; --border:#e4e1d8; --accent:#35507d; --accent-soft:#eef2f8; --code-bg:#f2f0ea; }
@@ -40,7 +40,7 @@
 <div class="page">
   <header class="doc-head">
     <div class="eyebrow">Documentation</div>
-    <h1>RosterFlow for JSM</h1>
+    <h1>Customer & Organization Export for JSM</h1>
     <div class="meta">
       <span><strong>Vendor</strong> Seisuke Nagahara</span>
       <span><strong>Version</strong> 1.0.0</span>
@@ -48,12 +48,12 @@
     </div>
   </header>
 
-  <p>RosterFlow for JSM adds one screen to Jira: pick a Jira Service Management project, click Export, and download a CSV of that project&rsquo;s Customers and Organizations. This page covers how to open it, what each part of the screen does, and how to read the output.</p>
+  <p>Customer & Organization Export for JSM adds one screen to Jira: pick a Jira Service Management project, click Export, and download a CSV of that project&rsquo;s Customers and Organizations. This page covers how to open it, what each part of the screen does, and how to read the output.</p>
 
-  <h2><span class="num">01</span> Opening RosterFlow</h2>
+  <h2><span class="num">01</span> Opening the app</h2>
   <ol>
     <li>From Jira, open the <strong>Apps</strong> menu in the left sidebar.</li>
-    <li>Select <strong>RosterFlow for JSM</strong> under your installed apps.</li>
+    <li>Select <strong>Customer & Organization Export for JSM</strong> under your installed apps.</li>
     <li>Choose a project from the <strong>Project</strong> dropdown.</li>
     <li>Click <strong>Export CSV</strong>.</li>
   </ol>
@@ -81,10 +81,10 @@
 
   <h2><span class="num">04</span> Troubleshooting</h2>
   <ul>
-    <li><strong>&ldquo;この作業項目タイプへのアクセス権限がありません&rdquo; / a permission error.</strong> Your Jira account needs Service Management agent access to the project you selected. RosterFlow reads data with your own permissions &mdash; it cannot see anything you couldn&rsquo;t already see in Jira.</li>
+    <li><strong>&ldquo;この作業項目タイプへのアクセス権限がありません&rdquo; / a permission error.</strong> Your Jira account needs Service Management agent access to the project you selected. The app reads data with your own permissions &mdash; it cannot see anything you couldn&rsquo;t already see in Jira.</li>
     <li><strong>A rate-limit message.</strong> Atlassian temporarily limited how many requests your account can make. Wait the suggested number of seconds (shown in the message, when Atlassian provides one) and try again.</li>
-    <li><strong>An &ldquo;API仕様が変更された可能性&rdquo; message.</strong> The Customer/Organization endpoints RosterFlow uses are marked Experimental by Atlassian, meaning their shape can change without notice. If you see this, please contact support so we can update the app.</li>
-    <li><strong>The export takes a while on a large project.</strong> RosterFlow reads each Organization&rsquo;s member list one call at a time (five at once, to stay well under Atlassian&rsquo;s rate limits). A project with many Organizations will take longer than one with few; there is no hard size limit, only how long you&rsquo;re willing to wait.</li>
+    <li><strong>An &ldquo;API仕様が変更された可能性&rdquo; message.</strong> The Customer/Organization endpoints the app uses are marked Experimental by Atlassian, meaning their shape can change without notice. If you see this, please contact support so we can update the app.</li>
+    <li><strong>The export takes a while on a large project.</strong> The app reads each Organization&rsquo;s member list one call at a time (five at once, to stay well under Atlassian&rsquo;s rate limits). A project with many Organizations will take longer than one with few; there is no hard size limit, only how long you&rsquo;re willing to wait.</li>
   </ul>
 
   <h2><span class="num">05</span> Related documents</h2>
@@ -97,7 +97,7 @@
   <p>Questions or issues: <a href="mailto:support@asunoki.jp">support@asunoki.jp</a>.</p>
 
   <footer class="doc-foot">
-    RosterFlow for JSM &middot; an independently developed Atlassian Marketplace app for Jira Service Management Cloud &middot; not affiliated with or endorsed by Atlassian beyond standard Marketplace listing.
+    Customer & Organization Export for JSM &middot; an independently developed Atlassian Marketplace app for Jira Service Management Cloud &middot; not affiliated with or endorsed by Atlassian beyond standard Marketplace listing.
   </footer>
 </div>
 </body>
