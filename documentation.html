@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Customer & Organization Export for JSM Documentation</title>
+<title>Customer &amp; Organization Export for JSM Documentation: Export a JSM Project to CSV</title>
+<meta name="description" content="Set up and use Customer &amp; Organization Export for JSM: choose a Service Management project, click Export CSV and download its Customers and Organization memberships. Includes CSV columns and troubleshooting.">
+<link rel="canonical" href="https://asunokio-official.github.io/customer-organization-export-jsm-docs/documentation.html">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
   :root { --bg:#faf9f6; --surface:#ffffff; --ink:#21242c; --ink-soft:#4b5160; --muted:#767c8a; --border:#e4e1d8; --accent:#35507d; --accent-soft:#eef2f8; --code-bg:#f2f0ea; }
@@ -49,7 +51,8 @@
 
   <p>Customer & Organization Export for JSM adds one screen to Jira: pick a Jira Service Management project, click Export, and download a CSV of that project&rsquo;s Customers and Organizations. This page covers how to open it, what each part of the screen does, and how to read the output.</p>
 
-  <h2><span class="num">01</span> Opening the app</h2>
+  <h2 id="quick-start"><span class="num">01</span> Opening the app</h2>
+  <p>Quick start: install the app from the <a href="https://marketplace.atlassian.com/apps/2507427402/customer-organization-export-for-jsm">Customer &amp; Organization Export for JSM listing on the Atlassian Marketplace</a> (an administrator on your Jira site installs it), then follow the steps below. Not sure whether you need an app? Read <a href="export-jsm-customers-organizations-to-csv.html">how to export JSM customers and organizations to CSV</a> for what Jira can and cannot export natively.</p>
   <ol>
     <li>From Jira, open the <strong>Apps</strong> menu in the left sidebar.</li>
     <li>Select <strong>Customer & Organization Export for JSM</strong> under your installed apps.</li>
@@ -66,7 +69,7 @@
   </ul>
   <p>A progress indicator shows which step is running (for example &ldquo;Fetching Customers&hellip;&rdquo;, &ldquo;Fetching Organizations&hellip;&rdquo;, &ldquo;Generating CSV&hellip;&rdquo;), and the app shows the number of Customers, Organizations and rows when it is done. When it finishes, your browser immediately downloads a CSV file &mdash; nothing is uploaded or sent anywhere else.</p>
 
-  <h2><span class="num">03</span> Reading the CSV</h2>
+  <h2 id="reading-the-csv"><span class="num">03</span> Reading the CSV</h2>
   <table class="field-table">
     <tr><th>Column</th><th>Contents</th></tr>
     <tr><td>Customer Name</td><td>The Customer&rsquo;s display name.</td></tr>
@@ -88,6 +91,9 @@
 
   <h2><span class="num">05</span> Related documents</h2>
   <ul>
+    <li><a href="index.html">Document index</a></li>
+    <li><a href="export-jsm-customers-organizations-to-csv.html">Guide: exporting JSM customers and organizations to CSV</a></li>
+    <li><a href="https://marketplace.atlassian.com/apps/2507427402/customer-organization-export-for-jsm">Customer &amp; Organization Export for JSM on the Atlassian Marketplace</a></li>
     <li><a href="privacy-policy.html">Privacy Policy</a></li>
     <li>End User Agreement &mdash; this app uses Atlassian&rsquo;s standard End User License Agreement (Bonterms Cloud Terms), applied automatically through the Atlassian Marketplace listing. No separate agreement is required.</li>
   </ul>
