@@ -43,7 +43,6 @@
     <h1>Customer & Organization Export for JSM</h1>
     <div class="meta">
       <span><strong>Vendor</strong> Seisuke Nagahara</span>
-      <span><strong>Version</strong> 1.0.0</span>
       <span><strong>Contact</strong> <a href="mailto:support@asunoki.jp">support@asunoki.jp</a></span>
     </div>
   </header>
@@ -65,7 +64,7 @@
     <li>Every Customer on the selected project (name and email address).</li>
     <li>Every Organization on the selected project, and which Customers belong to each one.</li>
   </ul>
-  <p>A progress indicator shows which step is running. When it finishes, your browser immediately downloads a CSV file &mdash; nothing is uploaded or sent anywhere else.</p>
+  <p>A progress indicator shows which step is running (for example &ldquo;Fetching Customers&hellip;&rdquo;, &ldquo;Fetching Organizations&hellip;&rdquo;, &ldquo;Generating CSV&hellip;&rdquo;), and the app shows the number of Customers, Organizations and rows when it is done. When it finishes, your browser immediately downloads a CSV file &mdash; nothing is uploaded or sent anywhere else.</p>
 
   <h2><span class="num">03</span> Reading the CSV</h2>
   <table class="field-table">
@@ -81,9 +80,9 @@
 
   <h2><span class="num">04</span> Troubleshooting</h2>
   <ul>
-    <li><strong>&ldquo;この作業項目タイプへのアクセス権限がありません&rdquo; / a permission error.</strong> Your Jira account needs Service Management agent access to the project you selected. The app reads data with your own permissions &mdash; it cannot see anything you couldn&rsquo;t already see in Jira.</li>
-    <li><strong>A rate-limit message.</strong> Atlassian temporarily limited how many requests your account can make. Wait the suggested number of seconds (shown in the message, when Atlassian provides one) and try again.</li>
-    <li><strong>An &ldquo;API仕様が変更された可能性&rdquo; message.</strong> The Customer/Organization endpoints the app uses are marked Experimental by Atlassian, meaning their shape can change without notice. If you see this, please contact support so we can update the app.</li>
+    <li><strong>&ldquo;You do not have permission to access this data&rdquo; (a permission error).</strong> Your Jira account needs Service Management agent access to the project you selected. The app reads data with your own permissions &mdash; it cannot see anything you couldn&rsquo;t already see in Jira.</li>
+    <li><strong>&ldquo;Atlassian&rsquo;s rate limit was reached&rdquo; (a rate-limit message).</strong> Atlassian temporarily limited how many requests your account can make. Wait the suggested number of seconds (shown in the message, when Atlassian provides one) and try again.</li>
+    <li><strong>&ldquo;The Atlassian API may have changed&rdquo;.</strong> The Customer/Organization endpoints the app uses are marked Experimental by Atlassian, meaning their shape can change without notice. If you see this, please contact support so we can update the app.</li>
     <li><strong>The export takes a while on a large project.</strong> The app reads each Organization&rsquo;s member list one call at a time (five at once, to stay well under Atlassian&rsquo;s rate limits). A project with many Organizations will take longer than one with few; there is no hard size limit, only how long you&rsquo;re willing to wait.</li>
   </ul>
 
