@@ -60,46 +60,91 @@
     <li>Click <strong>Export CSV</strong>.</li>
   </ol>
   <p>That&rsquo;s the entire workflow &mdash; there is no configuration screen and nothing to set up beforehand.</p>
+  <div class="callout">
+    <p><strong>Before you start.</strong> A Jira site administrator installs the app and approves its two scopes (see <a href="#security">Security and data handling</a>). The person who runs an export needs Service Management agent access to the project. The app does not need an API token, a script or the project&rsquo;s service desk ID.</p>
+  </div>
 
   <h2><span class="num">02</span> What happens when you click Export</h2>
   <p>Your browser calls Jira&rsquo;s own REST API directly, using your own login session, to read:</p>
   <ul>
-    <li>Every Customer on the selected project (name and email address).</li>
-    <li>Every Organization on the selected project, and which Customers belong to each one.</li>
+    <li>The Customers of the selected project that your account can see (name and email address).</li>
+    <li>The Organizations linked to the selected project, and which Customers belong to each one.</li>
   </ul>
-  <p>A progress indicator shows which step is running (for example &ldquo;Fetching Customers&hellip;&rdquo;, &ldquo;Fetching Organizations&hellip;&rdquo;, &ldquo;Generating CSV&hellip;&rdquo;), and the app shows the number of Customers, Organizations and rows when it is done. When it finishes, your browser immediately downloads a CSV file &mdash; nothing is uploaded or sent anywhere else.</p>
+  <p>A progress indicator shows which step is running (for example &ldquo;Fetching Customers&hellip;&rdquo;, &ldquo;Fetching Organizations&hellip;&rdquo;, &ldquo;Generating CSV&hellip;&rdquo;), and the app shows the number of Customers, Organizations and rows when it is done. Your browser then downloads a file named <code>jsm-customers-&lt;PROJECT KEY&gt;.csv</code>. The app does not upload the data or send it to any server of its own.</p>
 
   <h2 id="reading-the-csv"><span class="num">03</span> Reading the CSV</h2>
   <table class="field-table">
     <tr><th>Column</th><th>Contents</th></tr>
     <tr><td>Customer Name</td><td>The Customer&rsquo;s display name.</td></tr>
-    <tr><td>Email</td><td>The Customer&rsquo;s email address, if Jira has one on file.</td></tr>
-    <tr><td>Organization Name</td><td>The name of an Organization the Customer belongs to. Blank if the Customer belongs to no Organization.</td></tr>
+    <tr><td>Email</td><td>The Customer&rsquo;s email address, if Jira returns one for your account.</td></tr>
+    <tr><td>Organization Name</td><td>The name of an Organization (linked to this project) the Customer belongs to. Blank if the Customer belongs to none of them.</td></tr>
     <tr><td>Organization ID</td><td>Jira&rsquo;s internal ID for that Organization. Blank under the same condition as above.</td></tr>
   </table>
   <div class="callout">
-    <p><strong>One row per membership, not per Customer.</strong> A Customer who belongs to more than one Organization appears on more than one row &mdash; once for each Organization &mdash; so that no membership is ever dropped to fit a single-value column. A Customer with no Organization still gets exactly one row, with the last two columns left blank.</p>
+    <p><strong>One row per membership, not per Customer.</strong> A Customer who belongs to more than one Organization appears on more than one row &mdash; once for each Organization &mdash; so that no membership is dropped to fit a single-value column. A Customer with no Organization still gets exactly one row, with the last two columns left blank.</p>
   </div>
+  <p id="sample-csv">Sample output (fictional data). <a href="assets/sample-export.csv">Download the sample CSV</a>.</p>
+  <table class="field-table">
+    <tr><th>Customer Name</th><th>Email</th><th>Organization Name</th><th>Organization ID</th></tr>
+    <tr><td>Alex Rivera</td><td>alex.rivera@example.com</td><td>Northwind Retail</td><td>12</td></tr>
+    <tr><td>Alex Rivera</td><td>alex.rivera@example.com</td><td>Northwind Logistics</td><td>15</td></tr>
+    <tr><td>Priya Shah</td><td>priya.shah@example.org</td><td>Northwind Retail</td><td>12</td></tr>
+    <tr><td>Sam Lee</td><td>sam.lee@example.net</td><td></td><td></td></tr>
+  </table>
+  <p>Alex belongs to two Organizations, so Alex has two rows. Sam belongs to no Organization linked to the project, so the Organization columns are blank. The file is UTF-8 encoded. If names with accents or non-Latin characters look wrong in Excel, open the file with <strong>Data &rarr; From Text/CSV</strong> and choose UTF-8.</p>
 
-  <h2><span class="num">04</span> Troubleshooting</h2>
+  <h2 id="limits"><span class="num">04</span> Limits</h2>
+  <ul>
+    <li><strong>One project per export.</strong> Choose another project and export again for the next one.</li>
+    <li><strong>Only what your account can see.</strong> The app reads data with the permissions of the person running it. It cannot return Customers or Organizations that your account cannot access, so the result is only as complete as your access.</li>
+    <li><strong>Organizations linked to the project only.</strong> Memberships in Organizations that are not linked to the selected project are not listed.</li>
+    <li><strong>Export only.</strong> The app does not import, create, edit or delete Customers or Organizations, and it does not filter or schedule exports.</li>
+    <li><strong>Experimental endpoints.</strong> Some of the Customer and Organization endpoints the app calls are marked Experimental by Atlassian and can change without notice. If one changes, the app shows a message and an app update is needed.</li>
+    <li><strong>Very large lists.</strong> Each list (Customers, Organizations, or the members of one Organization) is read in pages of 50, up to 1,000 pages (50,000 entries) per list.</li>
+  </ul>
+
+  <h2 id="security"><span class="num">05</span> Security and data handling</h2>
+  <ul>
+    <li><strong>No backend of its own.</strong> The app is a single page inside Jira. It has no server-side functions, no web triggers and no Forge storage.</li>
+    <li><strong>Your session, your permissions.</strong> Requests go from your browser to your Jira site&rsquo;s REST API through Atlassian Forge, using your login. No API token is created or stored.</li>
+    <li><strong>The CSV stays on your device.</strong> It is generated in the browser and downloaded locally. The app does not keep a copy.</li>
+    <li><strong>Read-only use of a &ldquo;manage&rdquo; scope.</strong> The app requests <code>read:servicedesk-request</code> and <code>manage:servicedesk-customer</code>. Atlassian requires the second scope for the Customer and Organization endpoints, so it appears on the consent screen even though the app only reads (it sends only GET requests).</li>
+    <li><strong>Spreadsheet caution.</strong> Values are written as they come from Jira. Like any export of user-entered names, open the file with normal care for cells that start with <code>=</code>, <code>+</code>, <code>-</code> or <code>@</code>.</li>
+  </ul>
+  <p>Details are in the <a href="privacy-policy.html">Privacy Policy</a>.</p>
+
+  <h2><span class="num">06</span> Troubleshooting</h2>
   <ul>
     <li><strong>&ldquo;You do not have permission to access this data&rdquo; (a permission error).</strong> Your Jira account needs Service Management agent access to the project you selected. The app reads data with your own permissions &mdash; it cannot see anything you couldn&rsquo;t already see in Jira.</li>
     <li><strong>&ldquo;Atlassian&rsquo;s rate limit was reached&rdquo; (a rate-limit message).</strong> Atlassian temporarily limited how many requests your account can make. Wait the suggested number of seconds (shown in the message, when Atlassian provides one) and try again.</li>
     <li><strong>&ldquo;The Atlassian API may have changed&rdquo;.</strong> The Customer/Organization endpoints the app uses are marked Experimental by Atlassian, meaning their shape can change without notice. If you see this, please contact support so we can update the app.</li>
-    <li><strong>The export takes a while on a large project.</strong> The app reads each Organization&rsquo;s member list one call at a time (five at once, to stay well under Atlassian&rsquo;s rate limits). A project with many Organizations will take longer than one with few; there is no hard size limit, only how long you&rsquo;re willing to wait.</li>
+    <li><strong>The export takes a while on a large project.</strong> The app reads the member lists of up to five Organizations at a time, to stay within Atlassian&rsquo;s rate limits. A project with many Organizations takes longer than one with few.</li>
+    <li><strong>The project is not in the dropdown.</strong> The list shows the Service Management projects your account can access. Check your agent access to that project.</li>
   </ul>
 
-  <h2><span class="num">05</span> Related documents</h2>
+  <h2 id="faq"><span class="num">07</span> FAQ</h2>
+  <ul>
+    <li><strong>Does it export every Customer on the site?</strong> No. It exports one project at a time, and only what your account can see. For the site-wide list of portal-only customers, Atlassian&rsquo;s built-in export may be enough &mdash; see <a href="export-jsm-customers-organizations-to-csv.html">the comparison guide</a>.</li>
+    <li><strong>Do I need an API token or a script?</strong> No. The app uses your Jira login session.</li>
+    <li><strong>Where is the data stored?</strong> Only in the CSV file on your device. The app has no server or storage of its own.</li>
+    <li><strong>Can it update Customers or Organizations from a CSV?</strong> No. It only exports.</li>
+    <li><strong>Who needs to install it?</strong> A Jira site administrator, from the Atlassian Marketplace. People who run exports need agent access to the project.</li>
+    <li><strong>Can I use it to check a migration?</strong> Yes, as a read-only check of who ended up in which Organization. See <a href="migration-check.html">Checking customers and organizations after a JSM migration</a>.</li>
+    <li><strong>Is there a free trial?</strong> Yes, through the Marketplace listing (&ldquo;Try it free&rdquo;). Pricing is shown on the listing.</li>
+  </ul>
+
+  <h2><span class="num">08</span> Related documents</h2>
   <ul>
     <li><a href="index.html">Document index</a></li>
+    <li><a href="migration-check.html">Checking customers and organizations after a JSM migration</a></li>
     <li><a href="export-jsm-customers-organizations-to-csv.html">Guide: exporting JSM customers and organizations to CSV</a></li>
     <li><a href="https://marketplace.atlassian.com/apps/2507427402/customer-organization-export-for-jsm">Customer &amp; Organization Export for JSM on the Atlassian Marketplace</a></li>
     <li><a href="privacy-policy.html">Privacy Policy</a></li>
     <li>End User Agreement &mdash; this app uses Atlassian&rsquo;s standard End User License Agreement (Bonterms Cloud Terms), applied automatically through the Atlassian Marketplace listing. No separate agreement is required.</li>
   </ul>
 
-  <h2><span class="num">06</span> Support</h2>
-  <p>Questions or issues: <a href="mailto:support@asunoki.jp">support@asunoki.jp</a>.</p>
+  <h2><span class="num">09</span> Support</h2>
+  <p>Questions or issues: <a href="mailto:support@asunoki.jp">support@asunoki.jp</a> or the <a href="https://asunoki.jp/support/">ASUNOKI support page</a>.</p>
 
   <footer class="doc-foot">
     Customer & Organization Export for JSM &middot; an independently developed Atlassian Marketplace app for Jira Service Management Cloud &middot; not affiliated with or endorsed by Atlassian beyond standard Marketplace listing.

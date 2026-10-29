@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check JSM Customers and Organizations After a Migration | Customer &amp; Organization Export for JSM</title>
+<meta name="description" content="A read-only way to check, after moving to Jira Service Management Cloud, which Customers ended up in which Organizations in a project: export a CSV and compare it with the source system.">
+<link rel="canonical" href="https://asunokio-official.github.io/customer-organization-export-jsm-docs/migration-check.html">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+  :root { --bg:#faf9f6; --surface:#ffffff; --ink:#21242c; --ink-soft:#4b5160; --muted:#767c8a; --border:#e4e1d8; --accent:#35507d; --accent-soft:#eef2f8; --code-bg:#f2f0ea; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#14161b; --surface:#1a1d24; --ink:#e7e6e1; --ink-soft:#b9bcc4; --muted:#8b909c; --border:#2b2f38; --accent:#8fb2e0; --accent-soft:#202838; --code-bg:#21242c; }
+  }
+  :root[data-theme="dark"] { --bg:#14161b; --surface:#1a1d24; --ink:#e7e6e1; --ink-soft:#b9bcc4; --muted:#8b909c; --border:#2b2f38; --accent:#8fb2e0; --accent-soft:#202838; --code-bg:#21242c; }
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans', -apple-system, 'Hiragino Sans', sans-serif; line-height: 1.7; padding-inline: 20px; }
+  .page { max-width: 720px; margin: 0 auto; padding-block: 56px 80px; }
+  header.doc-head { border-bottom: 1px solid var(--border); padding-bottom: 28px; margin-bottom: 40px; }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: clamp(28px, 5vw, 38px); margin: 10px 0 14px; text-wrap: balance; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 13.5px; color: var(--muted); }
+  .meta strong { color: var(--ink-soft); font-weight: 600; }
+  h2 { font-family: 'Source Serif 4', Georgia, serif; font-size: 22px; font-weight: 600; margin: 44px 0 12px; display: flex; align-items: baseline; gap: 10px; }
+  h2 .num { font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: var(--accent); font-weight: 500; }
+  p, li { color: var(--ink-soft); font-size: 15.5px; max-width: 65ch; }
+  strong { color: var(--ink); }
+  ul, ol { padding-left: 1.3em; margin: 10px 0; }
+  li { margin-bottom: 6px; }
+  code { font-family: 'IBM Plex Mono', monospace; background: var(--code-bg); color: var(--ink); padding: 1px 6px; border-radius: 4px; font-size: 0.9em; }
+  .callout { background: var(--accent-soft); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 16px 18px; margin: 18px 0; }
+  .callout p { color: var(--ink-soft); margin: 0; font-size: 14.5px; }
+  .field-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  .field-table th, .field-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--ink-soft); vertical-align: top; }
+  .field-table th { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  footer.doc-foot { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <header class="doc-head">
+    <div class="eyebrow">Guide</div>
+    <h1>Checking customers and organizations after a JSM migration</h1>
+    <div class="meta">
+      <span><strong>Applies to</strong> Jira Service Management Cloud</span>
+      <span><strong>Contact</strong> <a href="mailto:support@asunoki.jp">support@asunoki.jp</a></span>
+    </div>
+  </header>
+
+  <p>After customers and organizations are moved into Jira Service Management Cloud &mdash; from another helpdesk, from another JSM site, or from Data Center &mdash; someone usually has to confirm that each customer landed in the right organization in each project. This guide shows a read-only way to do that check with <a href="https://marketplace.atlassian.com/apps/2507427402/customer-organization-export-for-jsm">Customer &amp; Organization Export for JSM</a> and a spreadsheet. The app does not move or fix data; it produces the list you compare.</p>
+
+  <h2><span class="num">01</span> Before you start</h2>
+  <ul>
+    <li>The app is installed on the target Jira site by a site administrator (a free trial is available on the listing).</li>
+    <li>The person doing the check has Service Management agent access to each project to be checked. The export only contains what that account can see, so use an account with the access the check needs.</li>
+    <li>You have a list from the source system with at least an email address and an organization name for each customer.</li>
+  </ul>
+
+  <h2><span class="num">02</span> Export the target project</h2>
+  <ol>
+    <li>In Jira, open <strong>Apps</strong> and select <strong>Customer &amp; Organization Export for JSM</strong>.</li>
+    <li>Choose the migrated project and click <strong>Export CSV</strong>.</li>
+    <li>Note the counts shown when it finishes (Customers, Organizations, rows). They are useful for the summary of your check.</li>
+  </ol>
+  <p>The file has one row per membership: Customer Name, Email, Organization Name, Organization ID. See <a href="documentation.html#reading-the-csv">Reading the CSV</a>.</p>
+
+  <h2><span class="num">03</span> Compare with the source</h2>
+  <ol>
+    <li>Put both lists in one workbook, one sheet each. Lower-case and trim the email columns so the keys match.</li>
+    <li>Make a key of <code>email|organization name</code> in both sheets (for example <code>=LOWER(TRIM(B2))&amp;"|"&amp;TRIM(C2)</code>).</li>
+    <li>Look up each source key in the export (for example with <code>XLOOKUP</code> or <code>COUNTIF</code>), and each export key in the source.</li>
+  </ol>
+  <table class="field-table">
+    <tr><th>Result</th><th>What it usually means</th></tr>
+    <tr><td>In the source, not in the export</td><td>The customer is missing from the project, is in a different organization, or the organization is not linked to this project. It can also be outside what the exporting account can see.</td></tr>
+    <tr><td>In the export, not in the source</td><td>An extra membership, for example a customer added during testing or a duplicate organization.</td></tr>
+    <tr><td>Export row with blank organization</td><td>The customer is in the project but in none of the organizations linked to it.</td></tr>
+    <tr><td>Same email, different organization names</td><td>Often a renamed or duplicated organization. Compare Organization IDs to tell them apart.</td></tr>
+  </table>
+
+  <h2><span class="num">04</span> Fix, then export again</h2>
+  <p>Make the corrections in Jira (or in your migration tooling), then export the project again and repeat the comparison until the differences are the ones you expect. Keep the final CSV with your migration sign-off if your process needs evidence.</p>
+
+  <h2><span class="num">05</span> Using the same check later</h2>
+  <p>The same export works for a periodic review of who can raise requests in a project and for which organization, for example before reorganizing organizations or when offboarding a client.</p>
+
+  <h2><span class="num">06</span> What this check does not cover</h2>
+  <ul>
+    <li>One project per export &mdash; repeat it for each project.</li>
+    <li>It does not compare data for you, import data, or change anything in Jira.</li>
+    <li>Only organizations linked to the selected project are listed, and only what the exporting account can see.</li>
+    <li>Some endpoints the app uses are marked Experimental by Atlassian. See <a href="documentation.html#limits">Limits</a>.</li>
+  </ul>
+
+  <h2><span class="num">07</span> Related documents</h2>
+  <ul>
+    <li><a href="documentation.html">Documentation</a></li>
+    <li><a href="export-jsm-customers-organizations-to-csv.html">Guide: what Jira exports natively, and when an app fits</a></li>
+    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+    <li><a href="https://marketplace.atlassian.com/apps/2507427402/customer-organization-export-for-jsm">Customer &amp; Organization Export for JSM on the Atlassian Marketplace</a></li>
+  </ul>
+
+  <footer class="doc-foot">
+    Customer &amp; Organization Export for JSM &middot; an independently developed Atlassian Marketplace app for Jira Service Management Cloud &middot; not affiliated with or endorsed by Atlassian beyond standard Marketplace listing. Contact: <a href="mailto:support@asunoki.jp">support@asunoki.jp</a>
+  </footer>
+</div>
+</body>
+</html>

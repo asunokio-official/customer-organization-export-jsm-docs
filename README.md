@@ -26,9 +26,15 @@ Jira Service Management agents and admins who need a list of a project's Custome
 ## Limits to know about
 
 - One project at a time. It only exports; it does not import, edit, filter or schedule.
-- You need Service Management agent access to the project. The app sees only what you can already see.
+- You need Service Management agent access to the project. The app sees only what you can already see, so the export is only as complete as your access.
+- Only Organizations linked to the selected project are listed.
 - It uses Jira endpoints that Atlassian marks as experimental, so they can change without notice.
-- Large projects with many Organizations take longer, because member lists are read one Organization at a time.
+- Large projects with many Organizations take longer, because each Organization's member list is read separately.
+
+## Guides
+
+- [Checking customers and organizations after a JSM migration](https://asunokio-official.github.io/customer-organization-export-jsm-docs/migration-check.html)
+- [Limits](https://asunokio-official.github.io/customer-organization-export-jsm-docs/documentation.html#limits), [Security and data handling](https://asunokio-official.github.io/customer-organization-export-jsm-docs/documentation.html#security) and [FAQ](https://asunokio-official.github.io/customer-organization-export-jsm-docs/documentation.html#faq)
 
 ## Install
 
