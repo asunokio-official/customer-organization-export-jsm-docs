@@ -125,6 +125,9 @@
   <h2 id="faq"><span class="num">07</span> FAQ</h2>
   <ul>
     <li><strong>Does it export every Customer on the site?</strong> No. It exports one project at a time, and only what your account can see. For the site-wide list of portal-only customers, Atlassian&rsquo;s built-in export may be enough &mdash; see <a href="export-jsm-customers-organizations-to-csv.html">the comparison guide</a>.</li>
+    <li><strong>How is this different from the admin console&rsquo;s &ldquo;Export customers&rdquo;?</strong> Atlassian&rsquo;s admin export lists portal-only customers for the whole site, without a project filter or organizations. This app reads the selected project&rsquo;s Customers list and its organizations through the Service Management API.</li>
+    <li><strong>Does it list everyone who <em>could</em> raise a request?</strong> No. It lists the project&rsquo;s Customers list. If the project lets anyone on the site, or anyone by email, raise requests, people who are not on that list are not in the export.</li>
+    <li><strong>Can I use it for a regular access review?</strong> Yes. For example, export the project each month and compare it with your list of joiners and leavers to find customers who should be added or removed. The app does not schedule this; you run it when needed.</li>
     <li><strong>Do I need an API token or a script?</strong> No. The app uses your Jira login session.</li>
     <li><strong>Where is the data stored?</strong> Only in the CSV file on your device. The app has no server or storage of its own.</li>
     <li><strong>Can it update Customers or Organizations from a CSV?</strong> No. It only exports.</li>
@@ -144,7 +147,10 @@
   </ul>
 
   <h2><span class="num">09</span> Support</h2>
-  <p>Questions or issues: <a href="mailto:support@asunoki.jp">support@asunoki.jp</a> or the <a href="https://asunoki.jp/support/">ASUNOKI support page</a>.</p>
+  <p>Use the <a href="https://asunoki.jp/support/">ASUNOKI support page</a> or email <a href="mailto:support@asunoki.jp">support@asunoki.jp</a>. Both are private channels.</p>
+  <div class="callout">
+    <p><strong>Never post support details in public.</strong> Please do not open public GitHub issues or community posts containing customer names, email addresses, request content, site data, API tokens or passwords. We never need a password or token to help you. Include the app name, your site URL (for example your-company.atlassian.net), what you did and the message you saw.</p>
+  </div>
 
   <footer class="doc-foot">
     Customer & Organization Export for JSM &middot; an independently developed Atlassian Marketplace app for Jira Service Management Cloud &middot; not affiliated with or endorsed by Atlassian beyond standard Marketplace listing.
