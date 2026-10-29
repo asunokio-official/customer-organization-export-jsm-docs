@@ -34,6 +34,9 @@
   .field-table th, .field-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--ink-soft); vertical-align: top; }
   .field-table th { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
   a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  figure.shot { margin: 18px 0 26px; }
+  figure.shot img { width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; display: block; }
+  figure.shot figcaption { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
   footer.doc-foot { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
 </style>
 </head>
@@ -63,6 +66,21 @@
   <div class="callout">
     <p><strong>Before you start.</strong> A Jira site administrator installs the app and approves its two scopes (see <a href="#security">Security and data handling</a>). The person who runs an export needs Service Management agent access to the project. The app does not need an API token, a script or the project&rsquo;s service desk ID.</p>
   </div>
+
+  <h2 id="walkthrough">Walkthrough in screenshots</h2>
+  <p>These screenshots come from a test site with sample data.</p>
+  <figure class="shot">
+    <img src="assets/step1-select-project.png" alt="The app page in Jira with a Project dropdown and an Export CSV button" width="1840" height="900" loading="lazy">
+    <figcaption>1. Open the app from Apps, choose a Service Management project and click Export CSV. There is nothing to configure.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="assets/step2-export-done.png" alt="A success message showing the customer, organization and row counts after the export" width="1840" height="900" loading="lazy">
+    <figcaption>2. When the export finishes, the app shows the customer, organization and row counts, and the browser downloads the CSV.</figcaption>
+  </figure>
+  <figure class="shot">
+    <img src="assets/step3-csv-memberships.png" alt="A CSV opened in a spreadsheet: one customer appears on two rows for two organizations, and some customers have blank organization columns" width="1840" height="900" loading="lazy">
+    <figcaption>3. Example output (sample data, a different project from step 2). A customer in two organizations has two rows; customers with no organization have blank organization columns.</figcaption>
+  </figure>
 
   <h2><span class="num">02</span> What happens when you click Export</h2>
   <p>Your browser calls Jira&rsquo;s own REST API directly, using your own login session, to read:</p>
